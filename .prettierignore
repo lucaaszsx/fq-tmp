@@ -1,0 +1,16 @@
+# Build
+**/build
+**/dist
+**/coverage
+
+# Logs
+logs
+log.
+
+# Dependencies
+**/node_modules
+*-lock.*
+pnpm-lock.yaml
+
+# VSCode
+.vscode
