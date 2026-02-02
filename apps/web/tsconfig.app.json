@@ -1,23 +1,24 @@
 {
-  "extends": "../../tsconfig.base.json",
-  "compilerOptions": {
-    "target": "ES2022",
-    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "$schema": "https://json.schemastore.org/tsconfig",
+    "extends": "../../tsconfig.base.json",
+    "compilerOptions": {
+        "target": "ES2022",
+        "lib": ["ES2022", "DOM", "DOM.Iterable"],
 
-    "module": "ESNext",
-    "moduleResolution": "bundler",
+        "module": "ESNext",
+        "moduleResolution": "bundler",
 
-    "jsx": "react-jsx",
-    "useDefineForClassFields": true,
+        "jsx": "react-jsx",
+        "useDefineForClassFields": true,
 
-    "noEmit": true,
+        "noEmit": true,
 
-    "baseUrl": ".",
-    "paths": {
-      "@/*": ["src/*"]
+        "baseUrl": ".",
+        "paths": {
+            "@/*": ["src/*"]
+        },
+
+        "types": ["vite/client", "vitest/globals"]
     },
-
-    "types": ["vite/client", "vitest/globals"]
-  },
-  "include": ["src"]
+    "include": ["src"]
 }

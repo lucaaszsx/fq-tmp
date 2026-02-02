@@ -1,0 +1,33 @@
+/**
+ * @file App.ts
+ * @description Application entry point, responsible for initializing loaders.
+ * @author Lucas
+ * @license MIT
+ */
+
+import 'reflect-metadata';
+import { bootstrapMicroframework } from 'microframework-w3tec';
+import {
+    DatabaseLoader,
+    ServerLoader,
+    LoggerLoader,
+    IoCLoader
+} from './loaders';
+import { Logger } from './lib/logger';
+
+const logger = new Logger(__filename);
+
+bootstrapMicroframework({
+    loaders: [
+        LoggerLoader,
+        DatabaseLoader,
+        IoCLoader,
+        ServerLoader
+    ]
+})
+    .then(() => {
+        logger.info('Application initialized successfully!');
+    })
+    .catch((err) => {
+        logger.error('An error occurred during application initialization:\n', err.stack);
+    });
