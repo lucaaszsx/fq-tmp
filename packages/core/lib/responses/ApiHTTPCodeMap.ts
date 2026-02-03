@@ -6,7 +6,7 @@
  * @license MIT
  */
 
-import { ApiErrorCodes, ApiSuccessCodes } from './ApiCodes.js';
+import { ApiErrorCodes, ApiSuccessCodes } from './ApiCodes';
 import { StatusCodes } from 'http-status-codes';
 
 export const ApiHTTPCodeMap: Record<number, StatusCodes> = {

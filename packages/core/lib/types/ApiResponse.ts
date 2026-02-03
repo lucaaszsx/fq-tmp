@@ -1,11 +1,11 @@
 /**
  * @file ApiResponse.ts
- * @description API response interface
+ * @description API response type
  * @author Lucas
  * @license MIT
  */
 
-import { ApiSuccessCodes, ApiErrorCodes } from "../constants/ApiCodes.js";
+import { ApiSuccessCodes, ApiErrorCodes } from "../responses/ApiCodes";
 
 export type ApiResponse<T = Record<string, unknown>> =
     | {

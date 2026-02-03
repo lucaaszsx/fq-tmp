@@ -14,12 +14,10 @@
     "emitDecoratorMetadata": true,
 
     "removeComments": false,
-    "composite": false
+    "composite": false,
+
+    "tsBuildInfoFile": "./node_modules/.cache/tsconfig.tsbuildinfo"
   },
   "include": ["src/**/*.ts"],
-  "exclude": ["node_modules", "dist"],
-  "ts-node": {
-    "transpileOnly": true,
-    "require": ["tsconfig-paths/register"]
-  }
+  "exclude": ["node_modules", "dist"]
 }

@@ -6,13 +6,14 @@
  */
 
 import 'reflect-metadata';
-import { bootstrapMicroframework } from 'microframework-w3tec';
+import 'dotenv/config';
 import {
     DatabaseLoader,
     ServerLoader,
     LoggerLoader,
     IoCLoader
 } from './loaders';
+import { bootstrapMicroframework } from 'microframework-w3tec';
 import { Logger } from './lib/logger';
 
 const logger = new Logger(__filename);

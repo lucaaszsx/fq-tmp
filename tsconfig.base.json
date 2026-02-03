@@ -12,12 +12,11 @@
     "sourceMap": true,
     "composite": true,
     "incremental": true,
-    "tsBuildInfoFile": "node_modules/.cache/tsconfig.tsbuildinfo",
 
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
-    "verbatimModuleSyntax": true,
+    "isolatedModules": true,
 
     "strict": true,
     "noImplicitReturns": true,

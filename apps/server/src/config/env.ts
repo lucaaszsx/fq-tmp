@@ -10,13 +10,9 @@ import {
     getEnvOptional,
     parseEnvArray,
     getEnvPath,
-    EnvType,
     parsePath,
+    EnvType
 } from '@/lib/env';
-import { config as envSetup } from 'dotenv';
-
-/** Load environment variables */
-envSetup();
 
 /**
  * Environment configuration

@@ -8,9 +8,6 @@ importers:
 
   .:
     devDependencies:
-      nodemon:
-        specifier: ^3.1.11
-        version: 3.1.11
       prettier:
         specifier: ^3.6.2
         version: 3.8.1
@@ -114,6 +111,9 @@ importers:
       '@types/sanitize-html':
         specifier: ^2.16.0
         version: 2.16.0
+      nodemon:
+        specifier: ^3.1.11
+        version: 3.1.11
       rimraf:
         specifier: ^6.1.2
         version: 6.1.2

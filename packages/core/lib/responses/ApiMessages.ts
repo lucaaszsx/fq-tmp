@@ -6,7 +6,7 @@
  * @license MIT
  */
 
-import { ApiErrorCodes } from './ApiCodes.js';
+import { ApiErrorCodes } from './ApiCodes';
 
 export const ApiErrorMessages: Record<ApiErrorCodes, string> = {
     // ────────────────────────────────

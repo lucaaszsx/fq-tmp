@@ -10,7 +10,7 @@ import {
     NoActiveVersionsException,
     VersionNotFoundException
 } from '../responses';
-import { AppVersionRepository } from '../repositories/AppVersionRepository';
+import { AppVersionRepository } from '../../database/repositories/AppVersionRepository';
 import { AppVersion } from '../models/AppVersionEntity';
 import { LoggerDecorator } from '@/decorators';
 import { LoggerInterface } from '@/lib/logger';
