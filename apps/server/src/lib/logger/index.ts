@@ -9,4 +9,4 @@
 export { type LoggerInterface, LoggerLevels, Logger } from './Logger';
 
  /** Logger context */
-export { loggerContext } from './LoggerContext';
+export { type RequestContext, loggerContext } from './LoggerContext';

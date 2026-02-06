@@ -5,6 +5,7 @@
  * @license MIT
  */
 
+import { PROJECT_PATHS } from '@/config/constants';
 import winston from 'winston';
 import path from 'node:path';
 import chalk from 'chalk';
@@ -47,8 +48,8 @@ export class Logger implements LoggerInterface {
         if (filepath.indexOf(path.sep) >= 0)
             filepath = filepath
                 .replace(process.cwd(), '')
-                .replace(`${path.sep}src${path.sep}`, '')
-                .replace(`${path.sep}dist${path.sep}`, '')
+                .replace(`${path.sep}${PROJECT_PATHS.source}${path.sep}`, '')
+                .replace(`${path.sep}${PROJECT_PATHS.distribution}${path.sep}`, '')
                 .replace('.ts', '')
                 .replace('.js', '')
                 .replace(new RegExp(path.sep, 'g'), ':');

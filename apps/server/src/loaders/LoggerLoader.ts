@@ -1,6 +1,6 @@
 /**
  * @file LoggerLoader.ts
- * @description Configures the Winston logger and loads it into the microframework context. Applies different formatting for development and production environments. Enhances error visibility and stack trace formatting for better debugging and observability. Executed during the application boot process as a MicroframeworkLoader component.
+ * @description Configures the Winston logger and loads it into the microframework context.
  * @author Lucas
  * @license MIT
  */
@@ -9,7 +9,7 @@ import { MicroframeworkLoader } from 'microframework-w3tec';
 import { transports, configure, format } from 'winston';
 import { mkdirSync, existsSync } from 'node:fs';
 import { EnvConfig } from '@/config/env';
-import { Logger } from '@/lib/logger';
+import { Logger, loggerContext } from '@/lib/logger';
 import DailyRotateFile from 'winston-daily-rotate-file';
 
 const { logs: logConfig } = EnvConfig.Application;  
@@ -25,12 +25,24 @@ const normalizeMessage = format((info) => {
     return info;
 });
 
+const contextFormat = format((info) => {
+    const context = loggerContext.getContext();
+    
+    if (context.requestId) info.requestId = context.requestId;
+    if (context.identifier) info.identifier = context.identifier;
+    if (context.method) info.method = context.method;
+    if (context.path) info.path = context.path;
+
+    return info;
+});
+
 export const LoggerLoader: MicroframeworkLoader = async (): Promise<void> => {
     if (!existsSync(logConfig.dirname)) mkdirSync(logConfig.dirname, { recursive: true });
 
     const baseFormat = format.combine(
         format.splat(),
         normalizeMessage(),
+        contextFormat(),
         format.errors({ stack: true }),
         format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' })
     );
@@ -38,14 +50,18 @@ export const LoggerLoader: MicroframeworkLoader = async (): Promise<void> => {
         baseFormat,
         format.colorize({ all: true }),
         format.printf((info) => {
-            const { timestamp, level, message, stack, ...meta } = info;
+            const { timestamp, level, message, stack, requestId, identifier, method, path, ...meta } = info;
+
+            const contextStr = requestId 
+                ? `[${requestId}${identifier ? ` | ${identifier}` : ''}${method && path ? ` | ${method} ${path}` : ''}]`
+                : '';
 
             const metaStr =
                 Object.keys(meta).length > 0
                     ? `\n${JSON.stringify(meta, null, 2)}`
                     : '';
 
-            return `${timestamp} - [${level}] ${message}${stack ? `\n${stack}` : ''}${metaStr}`;
+            return `${timestamp} - [${level}] ${contextStr ? `${contextStr} ` : ''}${message}${stack ? `\n${stack}` : ''}${metaStr}`;
         })
     );
     const prodFormat = format.combine(

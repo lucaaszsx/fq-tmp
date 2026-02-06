@@ -1,12 +1,11 @@
+import { CreateUserDTO, UserExistsDTO, FindUsersDTO, UpdateUserDTO } from "./dtos/calls";
 import { userRepository } from "@/database/repositories";
 import { UserEntity } from "@/database/entities";
-import { CreateUserDTO, ExistsDTO } from "./dtos/UserDTOs";
 import { LoggerDecorator } from "@/decorators";
 import { LoggerInterface } from "@/lib/logger";
-import { FindManyOptions } from "typeorm";
 import { Service } from "typedi";
 
-//@Service()
+@Service()
 export class UserService {
     constructor(
         @LoggerDecorator(__filename)
@@ -22,25 +21,25 @@ export class UserService {
         return user;
     }
 
-    public async find(options: FindManyOptions): Promise<UserEntity[]> {
+    public async find(options: FindUsersDTO): Promise<UserEntity[]> {
         const users = await userRepository.find(options);
 
         return users;
     }
 
-    public async findById(id: string): Promise<UserEntity | null> {
-        const user = await userRepository.findOne({ where: { id } });
+    public async findById(id: string, customParams: Partial<UserEntity> = {}): Promise<UserEntity | null> {
+        const user = await userRepository.findOne({ where: { id, ...customParams } });
 
         return user;
     }
 
-    public async findByEmail(email: string): Promise<UserEntity | null> {
-        const user = await userRepository.findOne({ where: { email } });
+    public async findByEmail(email: string, customParams: Partial<UserEntity> = {}): Promise<UserEntity | null> {
+        const user = await userRepository.findOne({ where: { email, ...customParams } });
 
         return user;
     }
 
-    public async exists(options: ExistsDTO): Promise<boolean> {
+    public async exists(options: UserExistsDTO): Promise<boolean> {
         let user;
 
         if (options.id) user = await this.findById(options.id);
@@ -49,9 +48,24 @@ export class UserService {
         return user?.isActive as boolean;
     }
 
-    public async updateUser() {}
+    public async updateUser(options: UpdateUserDTO) {
+        const { data, id } = options;
+        const user = await this.findById(id, { isActive: true });
 
-    public async deactivateUser() {}
+        if (!user) throw 0;
+        if (
+            data.email &&
+            await this.exists({ email: data.email})
+        ) throw 0;
+
+        userRepository.merge(user, data);
+
+        return userRepository.save(user);
+    }
+
+    public async deactivateUser(id: string) {
+
+    }
 
     public async activateUser() {}
 
