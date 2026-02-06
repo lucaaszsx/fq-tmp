@@ -7,48 +7,100 @@
 
 import { MicroframeworkLoader } from 'microframework-w3tec';
 import { transports, configure, format } from 'winston';
+import { mkdirSync, existsSync } from 'node:fs';
 import { EnvConfig } from '@/config/env';
 import { Logger } from '@/lib/logger';
+import DailyRotateFile from 'winston-daily-rotate-file';
+
+const { logs: logConfig } = EnvConfig.Application;  
+const normalizeMessage = format((info) => {
+    if (info.message instanceof Error) {
+        info.stack = info.message.stack;
+        info.message = info.message.message;
+    }
+
+    if (typeof info.message === 'object')
+        info.message = JSON.stringify(info.message, null, 2);
+
+    return info;
+});
 
 export const LoggerLoader: MicroframeworkLoader = async (): Promise<void> => {
-    /**
-     * Custom log format used in development for colorized, readable output.
-     */
-    const devFormat = format.combine(
-        format.splat(),
-        format.errors({ stack: true }),
-        format.colorize({ all: true }),
-        format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
-        format.printf(({ timestamp, level, message, stack, ...rest }) => {
-            const restStr =
-                Object.keys(rest).length > 0 ? `\n${JSON.stringify(rest, null, 4)}` : '';
-            const stackStr = stack ? `\n${stack}` : '';
+    if (!existsSync(logConfig.dirname)) mkdirSync(logConfig.dirname, { recursive: true });
 
-            return `${timestamp} - [${level}]: ${message}${stackStr}${restStr}`;
+    const baseFormat = format.combine(
+        format.splat(),
+        normalizeMessage(),
+        format.errors({ stack: true }),
+        format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' })
+    );
+    const devFormat = format.combine(
+        baseFormat,
+        format.colorize({ all: true }),
+        format.printf((info) => {
+            const { timestamp, level, message, stack, ...meta } = info;
+
+            const metaStr =
+                Object.keys(meta).length > 0
+                    ? `\n${JSON.stringify(meta, null, 2)}`
+                    : '';
+
+            return `${timestamp} - [${level}] ${message}${stack ? `\n${stack}` : ''}${metaStr}`;
         })
     );
-
-    /**
-     * Log format used in production for structured JSON output.
-     */
     const prodFormat = format.combine(
-        format.timestamp(),
-        format.errors({ stack: true }),
+        baseFormat,
         format.json()
     );
 
+    const chosenFormat =
+            EnvConfig.Environment.node === 'dev' ? devFormat : prodFormat;
+
+    const rotateOptions = {
+        dirname: logConfig.dirname,
+        datePattern: 'YYYY-MM-DD',
+        zippedArchive: true,
+        maxSize: logConfig.maxSize,
+        maxFiles: logConfig.maxFiles
+    };
+
     configure({
+        level: logConfig.level,
+        format: chosenFormat,
+
         transports: [
             new transports.Console({
-                level: EnvConfig.Application.logs.level,
-                handleExceptions: true,
-                format: EnvConfig.Environment.node === 'dev' ? devFormat : prodFormat
+                handleExceptions: true
+            }),
+
+            new DailyRotateFile({
+                ...rotateOptions,
+                filename: 'combined-%DATE%.log'
+            }),
+
+            new DailyRotateFile({
+                ...rotateOptions,
+                filename: 'error-%DATE%.log',
+                level: 'error'
             })
         ],
-        exitOnError: false // Do not exit on handled exceptions
+
+        exceptionHandlers: [
+            new DailyRotateFile({
+                ...rotateOptions,
+                filename: 'exceptions-%DATE%.log'
+            })
+        ],
+
+        rejectionHandlers: [
+            new DailyRotateFile({
+                ...rotateOptions,
+                filename: 'rejections-%DATE%.log'
+            })
+        ],
+
+        exitOnError: false
     });
 
-    const logger: Logger = new Logger(__filename);
-
-    logger.info('Winston logger initialized');
+    new Logger(__filename).info('Winston logger initialized');
 };

@@ -56,12 +56,12 @@ const Server = {
  */
 const Application = {
     logs: {
-        fileName: getEnvVariable('APP_LOG_FILENAME'),
-        level: getEnvVariable('APP_LOG_LEVEL')
+        level: getEnvVariable('APP_LOG_LEVEL'),
+        dirname: getEnvPath('APP_LOG_FOLDER'),
+        maxSize: getEnvVariable('APP_LOG_FILE_MAX_SIZE'),
+        maxFiles: getEnvVariable('APP_LOG_MAX_FILES')
     },
     dirs: {
-        logs: getEnvPath('APP_DIRS_LOGS'),
-
         controllers: parseEnvArray('APP_DIRS_CONTROLLERS', parsePath),
         middlewares: parseEnvArray('APP_DIRS_MIDDLEWARES', parsePath),
 

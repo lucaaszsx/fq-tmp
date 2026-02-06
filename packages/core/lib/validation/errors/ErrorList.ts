@@ -1,6 +1,6 @@
 /**
  * @file ErrorList.ts
- * @description A class for store a lsi of errors with some useful functions
+ * @description A class for store a list of errors with some useful functions
  * @author Lucas
  * @license MIT
  */

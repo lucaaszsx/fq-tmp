@@ -5,20 +5,21 @@
  * @license MIT
  */
 
-import { JsonController, Post, Body, Req, Res } from "routing-controllers";
-import { BaseController } from "./BaseController";
+import { JsonController, Post, Body, Req, Res } from 'routing-controllers';
+import { RegisterUserRequest } from './requests/AuthRequests';
+import { BaseController } from './BaseController';
 import type { Request, Response } from 'express';
-import { Service } from "typedi";
+import { Service } from 'typedi';
 
 @Service()
 @JsonController('/auth')
 export class AuthController extends BaseController {
     @Post('/register')
-    async register(
-        @Body() Body,
+    public async register(
+        @Body() Body: RegisterUserRequest,
         @Req() req: Request,
         @Res() res: Response
     ) {
-
+        const user = null; // todo: use auth service
     }
 }

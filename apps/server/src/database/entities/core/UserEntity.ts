@@ -3,27 +3,33 @@ import {
     ManyToOne,
     Entity,
     Column,
-    Index
+    Index,
+    OneToMany
 } from 'typeorm';
+import { BaseEntity } from '../BaseEntity';
 import { RoleEntity } from './RoleEntity';
-import { BaseEntity } from './BaseEntity';
+import { UserRules } from '@fc/core';
+import { SessionEntity } from './SessionEntity';
 
 @Entity({ name: 'users' })
 @Index('IDX_USER_EMAIL_UNIQUE', ['email'], { unique: true })
 export class UserEntity extends BaseEntity {
-    @Column({ type: 'varchar', length: 150 })
+    @Column({
+        type: 'varchar',
+        length: UserRules.NAME.MAX_LENGTH
+    })
     name!: string;
 
     @Column({
         type: 'varchar',
-        length: 180,
+        length: UserRules.EMAIL.MAX_LENGTH,
         unique: true
     })
     email!: string;
 
     @Column({
         type: 'varchar',
-        length: 255,
+        length: UserRules.PASSWORD.MAX_LENGTH,
         select: false
     })
     password!: string;
@@ -31,6 +37,15 @@ export class UserEntity extends BaseEntity {
     @ManyToOne(() => RoleEntity, (role) => role.users, {
         nullable: false
     })
-    @JoinColumn({ name: 'role_id' })
+    @JoinColumn({ name: 'roleId' })
     public role!: RoleEntity;
+
+    @Column()
+    public roleId!: string;
+
+    @Column({ default: true })
+    public isActive!: boolean;
+
+    @OneToMany(() => SessionEntity, (session) => session.user)
+    sessions!: SessionEntity[];
 }

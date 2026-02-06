@@ -11,7 +11,7 @@ import { BaseController } from './BaseController';
 import type { ApiResponse } from '@fc/core';
 import type { Request } from 'express';
 import { Service } from 'typedi';
-
+console.log("Achou")
 @Service()
 @JsonController('/system')
 export class SystemController extends BaseController {

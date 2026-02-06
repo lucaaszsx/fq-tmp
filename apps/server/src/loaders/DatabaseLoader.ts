@@ -6,7 +6,7 @@
  */
 
 import { MicroframeworkLoader, MicroframeworkSettings } from 'microframework-w3tec';
-import { dataSource } from '@/database/dataSource';
+import { appDataSource } from '@/database/AppDataSource';
 import { Logger } from '@/lib/logger';
 
 export const DatabaseLoader: MicroframeworkLoader = async (
@@ -15,16 +15,16 @@ export const DatabaseLoader: MicroframeworkLoader = async (
     const logger = new Logger(__filename);
 
     try {
-        await dataSource.initialize();
+        await appDataSource.initialize();
 
         logger.info('Database connection established');
 
         if (settings) {
-            settings.setData('dataSource', dataSource);
+            settings.setData('dataSource', appDataSource);
 
             settings.onShutdown(async () => {
-                if (dataSource?.isInitialized) {
-                    await dataSource.destroy();
+                if (appDataSource?.isInitialized) {
+                    await appDataSource.destroy();
                     
                     logger.info('Database connection closed');
                 }

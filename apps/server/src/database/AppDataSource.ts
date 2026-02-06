@@ -18,4 +18,4 @@ const options: DataSourceOptions = {
     logging: EnvConfig.Database.logging
 };
 
-export const dataSource = new DataSource(options);
+export const appDataSource = new DataSource(options);

@@ -1,20 +1,15 @@
 /**
  * @fileoverview Middleware responsible for logging HTTP requests using Morgan.
- * Creates a log file and writes request logs using a writable stream; adjusts format based on environment.
  * @author Lucas
  * @license MIT
  */
 
 import { Middleware, ExpressMiddlewareInterface } from 'routing-controllers';
-import { createWriteStream, existsSync, mkdirSync } from 'node:fs';
 import { Request, Response, NextFunction } from 'express';
-import morgan, { StreamOptions } from 'morgan';
-import { Logger } from '../../lib/logger';
 import { EnvConfig } from '@/config/env';
+import { Logger } from '@/lib/logger';
 import { Service } from 'typedi';
-import path from 'node:path';
-
-const { Application } = EnvConfig;
+import morgan from 'morgan';
 
 @Middleware({ type: 'before' })
 @Service()
@@ -23,21 +18,18 @@ export default class LoggerMiddleware implements ExpressMiddlewareInterface {
     private readonly morganMiddleware;
 
     constructor() {
-        const root = Application.dirs.logs;
+        const format =
+            EnvConfig.Environment.node === 'prod'
+                ? ':method :url :status :response-time ms - :res[content-length]'
+                : 'dev';
 
-        if (!existsSync(root)) mkdirSync(root);
-
-        const fileStream = createWriteStream(path.join(root, Application.logs.fileName), { flags: 'a' });
-        const stream: StreamOptions = {
-            write: (message: any) => {
-                fileStream.write(message + '\n');
-                this.logger.info(message);
+        this.morganMiddleware = morgan(format, {
+            stream: {
+                write: (message: string) => {
+                    this.logger.http(message.trim());
+                }
             }
-        };
-
-        const format = process.env.ENVIRONMENT === 'prod' ? 'combined' : 'dev';
-
-        this.morganMiddleware = morgan(format, { stream });
+        });
     }
 
     use(req: Request, res: Response, next: NextFunction): void {

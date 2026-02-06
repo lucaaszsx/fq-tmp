@@ -5,7 +5,7 @@
  * @license MIT
  */
 
-import { ErrorList } from "../errors";
+import type { ErrorList } from "../errors";
 
 export abstract class BaseValidator {
     public static checkLength<T>(

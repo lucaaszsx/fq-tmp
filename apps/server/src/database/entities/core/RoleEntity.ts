@@ -1,17 +1,21 @@
 import { Column, Entity, OneToMany } from 'typeorm';
+import { BaseEntity } from '../BaseEntity';
 import { UserEntity } from './UserEntity';
-import { BaseEntity } from './BaseEntity';
+import { RoleRules } from '@fc/core';
 
 @Entity({ name: 'roles' })
 export class RoleEntity extends BaseEntity {
     @Column({
         type: 'varchar',
-        length: 15,
+        length: RoleRules.NAME.MAX_LENGTH,
         unique: true
     })
     name!: string;
 
-    @Column({ type: 'varchar', length: 250 })
+    @Column({
+        type: 'varchar',
+        length: RoleRules.DESCRIPTION.MAX_LENGTH
+    })
     description!: string;
 
     @Column({ type: 'bigint', default: 0 })

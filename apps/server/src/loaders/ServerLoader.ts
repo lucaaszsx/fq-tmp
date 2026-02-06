@@ -20,8 +20,8 @@ export const ServerLoader: MicroframeworkLoader = async (
         classTransformer: true,
         validation: true,
         cors: false,
-        controllers: [EnvConfig.Application.dirs.controllers],
-        middlewares: [EnvConfig.Application.dirs.middlewares],
+        controllers: EnvConfig.Application.dirs.controllers,
+        middlewares: EnvConfig.Application.dirs.middlewares
     });
 
     // Configure trust proxy for proper IP detection when behind proxies (Vercel, nginx, load balancers)
