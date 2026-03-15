@@ -6,7 +6,7 @@
  */
 
 import { JsonController, Post, Body, Req, Res } from 'routing-controllers';
-import { RegisterUserRequest } from './requests/AuthRequests';
+import type { RegisterUserRequest } from './dtos/requests/AuthRequests';
 import { BaseController } from './BaseController';
 import type { Request, Response } from 'express';
 import { Service } from 'typedi';

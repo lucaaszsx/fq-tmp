@@ -3,6 +3,6 @@
     "watch": ["src/*", ".env"],
     "ext": "ts,json",
     "ignore": ["node_modules"],
-    "exec": "tsx src/App.ts",
-    "delay": 1000
+    "exec": "ts-node --swc -r tsconfig-paths/register src/App.ts",
+    "delay": 2500
 }
