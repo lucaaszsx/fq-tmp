@@ -7,9 +7,9 @@
 
 import { MicroframeworkLoader } from 'microframework-w3tec';
 import { transports, configure, format } from 'winston';
+import { Logger, loggerContext } from '@/lib/logger';
 import { mkdirSync, existsSync } from 'node:fs';
 import { EnvConfig } from '@/config/env';
-import { Logger, loggerContext } from '@/lib/logger';
 import DailyRotateFile from 'winston-daily-rotate-file';
 
 const { logs: logConfig } = EnvConfig.Application;  

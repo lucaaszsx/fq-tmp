@@ -17,8 +17,9 @@ export const ApiHTTPCodeMap: Record<number, StatusCodes> = {
     // General Success
     [ApiSuccessCodes.OK]: StatusCodes.OK,
     [ApiSuccessCodes.CREATED]: StatusCodes.CREATED,
+    [ApiSuccessCodes.UPDATED]: StatusCodes.OK,
     [ApiSuccessCodes.ACCEPTED]: StatusCodes.ACCEPTED,
-    [ApiSuccessCodes.NO_CONTENT]: StatusCodes.NO_CONTENT,
+    [ApiSuccessCodes.DELETED]: StatusCodes.OK,
 
     // ────────────────────────────────
     // Error Codes

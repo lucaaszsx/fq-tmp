@@ -5,13 +5,13 @@
  * @license MIT
  */
 
+import type { PingResponse } from './dtos/responses/SystemResponses';
 import { JsonController, Get, Req } from 'routing-controllers';
-import { PingResponse } from './responses/SystemResponses';
 import { BaseController } from './BaseController';
 import type { ApiResponse } from '@fc/core';
 import type { Request } from 'express';
 import { Service } from 'typedi';
-console.log("Achou")
+
 @Service()
 @JsonController('/system')
 export class SystemController extends BaseController {

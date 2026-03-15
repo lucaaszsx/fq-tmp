@@ -5,12 +5,12 @@
  * @license MIT
  */
 
+import { type ApiResponse, ApiSuccessCodes } from '@fc/core';
 import type { Request as ExpressRequest } from 'express';
 import { createApiResponse } from '../responses';
-import { ApiSuccessCodes } from '@fc/core';
 
 export abstract class BaseController {
-    protected ok<T>(request: ExpressRequest, data: T) {
+    protected ok<T>(request: ExpressRequest, data: T): ApiResponse<T> {
         return createApiResponse<T>({
             apiCode: ApiSuccessCodes.OK,
             path: request.path,
@@ -18,7 +18,35 @@ export abstract class BaseController {
         });
     }
     
-    protected created<T>() {}
-    protected deleted<T>() {}
-    protected noContent<T>() {}
+    protected created<T>(request: ExpressRequest, data: T): ApiResponse<T> {
+        return createApiResponse<T>({
+            apiCode: ApiSuccessCodes.CREATED,
+            path: request.path,
+            data
+        });
+    }
+
+    protected updated<T>(request: ExpressRequest, data: T): ApiResponse<T> {
+        return createApiResponse<T>({
+            apiCode: ApiSuccessCodes.UPDATED,
+            path: request.path,
+            data
+        });
+    }
+
+    protected accepted<T>(request: ExpressRequest, data: T): ApiResponse<T> {
+        return createApiResponse<T>({
+            apiCode: ApiSuccessCodes.ACCEPTED,
+            path: request.path,
+            data
+        });
+    }
+
+    protected deleted<T>(request: ExpressRequest, data: T): ApiResponse<T> {
+        return createApiResponse<T>({
+            apiCode: ApiSuccessCodes.DELETED,
+            path: request.path,
+            data
+        });
+    }
 }

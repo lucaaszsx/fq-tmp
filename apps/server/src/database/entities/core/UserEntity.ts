@@ -1,10 +1,10 @@
 import {
     JoinColumn,
     ManyToOne,
+    OneToMany,
     Entity,
     Column,
-    Index,
-    OneToMany
+    Index
 } from 'typeorm';
 import { BaseEntity } from '../BaseEntity';
 import { RoleEntity } from './RoleEntity';

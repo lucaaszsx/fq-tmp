@@ -20,8 +20,9 @@ export enum ApiSuccessCodes {
     // ────────────────────────────────
     OK                             = 1000,
     CREATED                        = 1001,
-    ACCEPTED                       = 1002,
-    NO_CONTENT                     = 1003
+    UPDATED                        = 1002,
+    ACCEPTED                       = 1003,
+    DELETED                        = 1004
 }
 
 /**
