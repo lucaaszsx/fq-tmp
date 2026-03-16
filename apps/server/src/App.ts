@@ -7,24 +7,14 @@
 
 import 'reflect-metadata';
 import 'dotenv/config';
-import {
-    DatabaseLoader,
-    ServerLoader,
-    LoggerLoader,
-    IoCLoader
-} from './loaders';
+import { DatabaseLoader, ServerLoader, LoggerLoader, IoCLoader } from './loaders';
 import { bootstrapMicroframework } from 'microframework-w3tec';
 import { Logger } from './lib/logger';
 
 const logger = new Logger(__filename);
 
 bootstrapMicroframework({
-    loaders: [
-        LoggerLoader,
-        DatabaseLoader,
-        IoCLoader,
-        ServerLoader
-    ]
+    loaders: [LoggerLoader, DatabaseLoader, IoCLoader, ServerLoader]
 })
     .then(() => {
         logger.info('Application initialized successfully!');

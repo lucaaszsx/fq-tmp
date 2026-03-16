@@ -1,14 +1,14 @@
 {
-  "$schema": "https://json.schemastore.org/tsconfig",
-  "extends": "../../tsconfig.base.json",
-  "compilerOptions": {
-    "rootDir": "./lib",
-    "outDir": "./dist",
+    "$schema": "https://json.schemastore.org/tsconfig",
+    "extends": "../../tsconfig.base.json",
+    "compilerOptions": {
+        "rootDir": "./lib",
+        "outDir": "./dist",
 
-    "tsBuildInfoFile": "./node_modules/.cache/tsconfig.tsbuildinfo",
+        "tsBuildInfoFile": "./node_modules/.cache/tsconfig.tsbuildinfo",
 
-    "types": []
-  },
-  "include": ["lib/**/*.ts"],
-  "exclude": ["node_modules", "dist"]
+        "types": []
+    },
+    "include": ["lib/**/*.ts"],
+    "exclude": ["node_modules", "dist"]
 }

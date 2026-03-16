@@ -10,9 +10,6 @@ import { BaseException } from '../Base';
 
 export class NoActiveVersionsException extends BaseException {
     constructor(details?: string[]) {
-        super(
-            ApiErrorCodes.NO_ACTIVE_VERSIONS,
-            details || ['No active versions found']
-        );
+        super(ApiErrorCodes.NO_ACTIVE_VERSIONS, details || ['No active versions found']);
     }
 }

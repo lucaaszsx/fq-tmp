@@ -75,9 +75,11 @@ export const createApiResponse = <T = any>({
             timestamp
         } as ApiResponse<T>;
     } else {
-        const message = isSuccess 
+        const message = isSuccess
             ? getReasonPhrase(statusCode) || 'Unknown message'
-            : ApiErrorMessages[apiCode as ApiErrorCodes] || getReasonPhrase(statusCode) || 'Unknown message';
+            : ApiErrorMessages[apiCode as ApiErrorCodes] ||
+              getReasonPhrase(statusCode) ||
+              'Unknown message';
 
         return {
             success: false,

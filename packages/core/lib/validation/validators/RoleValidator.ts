@@ -2,7 +2,7 @@
  * @file RoleValidator.ts
  * @description Role data validator with static methods for name and description checks
  * Returns a standardized errors based on role rules
- * 
+ *
  * @author Lucas
  * @license MIT
  */
@@ -12,10 +12,7 @@ import { RoleErrors, ErrorList } from '../errors';
 import { BaseValidator } from './BaseValidator';
 import { RoleRules } from '../rules';
 
-const {
-    NAME: nameRules,
-    DESCRIPTION: descRules
-} = RoleRules;
+const { NAME: nameRules, DESCRIPTION: descRules } = RoleRules;
 
 export class RoleValidator extends BaseValidator {
     public static isValidName(entry: string): ErrorList<RoleErrorCode> {
@@ -29,9 +26,8 @@ export class RoleValidator extends BaseValidator {
             RoleErrors.NAME.TOO_SHORT,
             RoleErrors.NAME.TOO_LONG
         );
-        
-        if (!nameRules.REGEX.test(entry))
-            errors.append(RoleErrors.NAME.INVALID_FORMAT);
+
+        if (!nameRules.REGEX.test(entry)) errors.append(RoleErrors.NAME.INVALID_FORMAT);
 
         return errors;
     }
@@ -47,7 +43,7 @@ export class RoleValidator extends BaseValidator {
             RoleErrors.DESCRIPTION.TOO_SHORT,
             RoleErrors.DESCRIPTION.TOO_LONG
         );
-        
+
         return errors;
     }
 }

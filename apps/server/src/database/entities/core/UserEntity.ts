@@ -1,11 +1,4 @@
-import {
-    JoinColumn,
-    ManyToOne,
-    OneToMany,
-    Entity,
-    Column,
-    Index
-} from 'typeorm';
+import { JoinColumn, ManyToOne, OneToMany, Entity, Column, Index } from 'typeorm';
 import { BaseEntity } from '../BaseEntity';
 import { RoleEntity } from './RoleEntity';
 import { UserRules } from '@fc/core';

@@ -17,4 +17,3 @@ export { roleRepository } from './core/RoleRepository';
 /** Communication */
 
 /** People */
-

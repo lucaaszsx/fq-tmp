@@ -5,7 +5,7 @@
  * @license MIT
  */
 
-import { AsyncLocalStorage } from "node:async_hooks";
+import { AsyncLocalStorage } from 'node:async_hooks';
 
 export type RequestContext = {
     requestId: string;
@@ -33,14 +33,6 @@ class LoggerContext {
         const store = this.asyncLocalStorage.getStore();
 
         if (store) Object.assign(store, updates);
-    }
-
-    public getRequestId(): string | undefined {
-        return this.getContext().requestId;
-    }
-
-    public getIdentifier(): string | undefined {
-        return this.getContext().identifier;
     }
 }
 

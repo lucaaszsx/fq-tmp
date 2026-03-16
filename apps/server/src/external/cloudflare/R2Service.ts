@@ -18,8 +18,8 @@ import { FolderTypes, Constraints, streamToBuffer } from './utils';
 import { extension as mimeToExtension } from 'mime-types';
 import { LoggerDecorator } from '@/decorators';
 import { LoggerInterface } from '@/lib/logger';
-import { EnvConfig } from '@/config/env';
 import { Readable } from 'node:stream';
+import { Env } from '@/config/env';
 import { Service } from 'typedi';
 import { extname } from 'path';
 
@@ -36,11 +36,11 @@ export class R2Service {
         private logger: LoggerInterface
     ) {
         this.client = new S3Client({
-            region: EnvConfig.R2.region,
-            endpoint: EnvConfig.R2.endpoint,
+            region: Env.R2.region,
+            endpoint: Env.R2.endpoint,
             credentials: {
-                secretAccessKey: EnvConfig.R2.secretAccessKey,
-                accessKeyId: EnvConfig.R2.accessKeyId
+                secretAccessKey: Env.R2.secretAccessKey,
+                accessKeyId: Env.R2.accessKeyId
             }
         });
     }
@@ -78,7 +78,7 @@ export class R2Service {
      * @returns The full public URL.
      */
     getObjectUrl(key: string): string {
-        return `${EnvConfig.R2.publicEndpoint.replace(/\/$/, '')}/${key}`;
+        return `${Env.R2.publicEndpoint.replace(/\/$/, '')}/${key}`;
     }
 
     /**
@@ -100,7 +100,7 @@ export class R2Service {
 
         try {
             const command = new PutObjectCommand({
-                Bucket: EnvConfig.R2.bucket,
+                Bucket: Env.R2.bucket,
                 Key: key,
                 Body: stream,
                 ContentType: contentType
@@ -128,7 +128,7 @@ export class R2Service {
     async downloadObject(key: string): Promise<Buffer | null> {
         try {
             const command = new GetObjectCommand({
-                Bucket: EnvConfig.R2.bucket,
+                Bucket: Env.R2.bucket,
                 Key: key
             });
 
@@ -157,7 +157,7 @@ export class R2Service {
     async deleteObject(key: string): Promise<boolean> {
         try {
             const command = new DeleteObjectCommand({
-                Bucket: EnvConfig.R2.bucket,
+                Bucket: Env.R2.bucket,
                 Key: key
             });
 
@@ -180,7 +180,7 @@ export class R2Service {
     async listObjects(prefix?: string): Promise<string[]> {
         try {
             const command = new ListObjectsV2Command({
-                Bucket: EnvConfig.R2.bucket,
+                Bucket: Env.R2.bucket,
                 Prefix: prefix
             });
 
@@ -207,7 +207,7 @@ export class R2Service {
     async objectExists(key: string): Promise<boolean> {
         try {
             const command = new HeadObjectCommand({
-                Bucket: EnvConfig.R2.bucket,
+                Bucket: Env.R2.bucket,
                 Key: key
             });
 

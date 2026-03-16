@@ -1,21 +1,21 @@
 import { DataSourceOptions, DataSource } from 'typeorm';
-import { EnvConfig } from '@/config/env';
+import { Env } from '@/config/env';
 
 const options: DataSourceOptions = {
-    type: EnvConfig.Database.type,
-    host: EnvConfig.Database.host,
-    port: EnvConfig.Database.port,
-    username: EnvConfig.Database.username,
-    password: EnvConfig.Database.password,
-    database: EnvConfig.Database.database,
+    type: Env.Pg.type,
+    host: Env.Pg.host,
+    port: Env.Pg.port,
+    username: Env.Pg.username,
+    password: Env.Pg.password,
+    database: Env.Pg.database,
 
-    synchronize: EnvConfig.Database.synchronize,
+    synchronize: Env.Pg.synchronize,
 
     migrationsRun: true,
-    entities: EnvConfig.Application.dirs.entities,
-    migrations: EnvConfig.Application.dirs.migrations,
+    entities: Env.App.dirs.entities,
+    migrations: Env.App.dirs.migrations,
 
-    logging: EnvConfig.Database.logging
+    logging: Env.Pg.logging
 };
 
 export const appDataSource = new DataSource(options);

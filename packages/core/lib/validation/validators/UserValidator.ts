@@ -2,7 +2,7 @@
  * @file UserValidator.ts
  * @description User data validator with static methods for name, email and password checks
  * Returns a standardized errors based on user rules
- * 
+ *
  * @author Lucas
  * @license MIT
  */
@@ -12,11 +12,7 @@ import { UserErrors, ErrorList } from '../errors';
 import { BaseValidator } from './BaseValidator';
 import { UserRules } from '../rules';
 
-const {
-    NAME: nameRules,
-    EMAIL: emailRules,
-    PASSWORD: passRules
-} = UserRules;
+const { NAME: nameRules, EMAIL: emailRules, PASSWORD: passRules } = UserRules;
 
 export class UserValidator extends BaseValidator {
     public static isValidUsername(entry: string): ErrorList<UserErrorCode> {
@@ -30,9 +26,8 @@ export class UserValidator extends BaseValidator {
             UserErrors.NAME.TOO_SHORT,
             UserErrors.NAME.TOO_LONG
         );
-        
-        if (!nameRules.REGEX.test(entry))
-            errors.append(UserErrors.NAME.INVALID_FORMAT);
+
+        if (!nameRules.REGEX.test(entry)) errors.append(UserErrors.NAME.INVALID_FORMAT);
 
         return errors;
     }
@@ -77,8 +72,7 @@ export class UserValidator extends BaseValidator {
             UserErrors.EMAIL.TOO_LONG
         );
 
-        if (!emailRules.REGEX.test(entry))
-            errors.append(UserErrors.EMAIL.INVALID_FORMAT);
+        if (!emailRules.REGEX.test(entry)) errors.append(UserErrors.EMAIL.INVALID_FORMAT);
 
         return errors;
     }

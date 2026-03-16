@@ -15,7 +15,7 @@ const isString = (value: any): value is string => typeof value === 'string';
 
 const isArray = (value: any): value is any[] => Array.isArray(value);
 
-const isPlainObject = (value: any): value is Record<string, any> => 
+const isPlainObject = (value: any): value is Record<string, any> =>
     value !== null && typeof value === 'object' && value.constructor === Object;
 
 const sanitizeValue = (value: any): any => {

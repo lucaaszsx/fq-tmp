@@ -8,11 +8,11 @@
 import { ExpressMiddlewareInterface, Middleware } from 'routing-controllers';
 import { Request, Response, NextFunction } from 'express';
 import { TooManyRequestsException } from '../responses';
-import { EnvConfig } from '@/config/env';
+import { Env } from '@/config/env';
 import { Service } from 'typedi';
 import rateLimit from 'express-rate-limit';
 
-const { middlewares } = EnvConfig.Server;
+const { middlewares } = Env.Server;
 
 @Middleware({ type: 'before' })
 @Service()

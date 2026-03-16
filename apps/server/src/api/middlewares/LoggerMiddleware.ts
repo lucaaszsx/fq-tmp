@@ -6,8 +6,8 @@
 
 import { Middleware, ExpressMiddlewareInterface } from 'routing-controllers';
 import { Request, Response, NextFunction } from 'express';
-import { EnvConfig } from '@/config/env';
 import { Logger } from '@/lib/logger';
+import { Env } from '@/config/env';
 import { Service } from 'typedi';
 import morgan from 'morgan';
 
@@ -19,7 +19,7 @@ export default class LoggerMiddleware implements ExpressMiddlewareInterface {
 
     constructor() {
         const format =
-            EnvConfig.Environment.node === 'prod'
+            Env.node === 'prod'
                 ? ':method :url :status :response-time ms - :res[content-length]'
                 : 'dev';
 

@@ -1,12 +1,8 @@
-import { IsRequiredEmail, IsRequiredString } from "@/decorators";
-import { UserRules } from "@fc/core";
+import { IsRequiredEmail, IsRequiredString } from '@/decorators';
+import { UserRules } from '@fc/core';
 
 export class RegisterUserRequest {
-    @IsRequiredString(
-        UserRules.NAME.MIN_LENGTH,
-        UserRules.NAME.MAX_LENGTH,
-        UserRules.NAME.REGEX
-    )
+    @IsRequiredString(UserRules.NAME.MIN_LENGTH, UserRules.NAME.MAX_LENGTH, UserRules.NAME.REGEX)
     public name!: string;
 
     @IsRequiredEmail()

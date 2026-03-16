@@ -25,7 +25,7 @@ export const DatabaseLoader: MicroframeworkLoader = async (
             settings.onShutdown(async () => {
                 if (appDataSource?.isInitialized) {
                     await appDataSource.destroy();
-                    
+
                     logger.info('Database connection closed');
                 }
             });

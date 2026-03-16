@@ -1,7 +1,7 @@
 /**
  * @file IoCLoader.ts
  * @description Loader responsible for configuring dependency injection using TypeDI.
- * 
+ *
  * @author Lucas
  * @license Apache-2.0
  */

@@ -9,31 +9,23 @@ import { MicroframeworkLoader } from 'microframework-w3tec';
 import { transports, configure, format } from 'winston';
 import { Logger, loggerContext } from '@/lib/logger';
 import { mkdirSync, existsSync } from 'node:fs';
-import { EnvConfig } from '@/config/env';
+import { Env } from '@/config/env';
 import DailyRotateFile from 'winston-daily-rotate-file';
 
-const { logs: logConfig } = EnvConfig.Application;  
+const { logs: logConfig } = Env.App;
 const normalizeMessage = format((info) => {
     if (info.message instanceof Error) {
         info.stack = info.message.stack;
         info.message = info.message.message;
     }
 
-    if (typeof info.message === 'object')
-        info.message = JSON.stringify(info.message, null, 2);
+    if (typeof info.message === 'object') info.message = JSON.stringify(info.message, null, 2);
 
     return info;
 });
 
 const contextFormat = format((info) => {
-    const context = loggerContext.getContext();
-    
-    if (context.requestId) info.requestId = context.requestId;
-    if (context.identifier) info.identifier = context.identifier;
-    if (context.method) info.method = context.method;
-    if (context.path) info.path = context.path;
-
-    return info;
+    return { ...info, ...loggerContext.getContext() };
 });
 
 export const LoggerLoader: MicroframeworkLoader = async (): Promise<void> => {
@@ -50,28 +42,31 @@ export const LoggerLoader: MicroframeworkLoader = async (): Promise<void> => {
         baseFormat,
         format.colorize({ all: true }),
         format.printf((info) => {
-            const { timestamp, level, message, stack, requestId, identifier, method, path, ...meta } = info;
+            const {
+                timestamp,
+                level,
+                message,
+                stack,
+                requestId,
+                identifier,
+                method,
+                path,
+                ...meta
+            } = info;
 
-            const contextStr = requestId 
+            const contextStr = requestId
                 ? `[${requestId}${identifier ? ` | ${identifier}` : ''}${method && path ? ` | ${method} ${path}` : ''}]`
                 : '';
 
             const metaStr =
-                Object.keys(meta).length > 0
-                    ? `\n${JSON.stringify(meta, null, 2)}`
-                    : '';
+                Object.keys(meta).length > 0 ? `\n${JSON.stringify(meta, null, 2)}` : '';
 
             return `${timestamp} - [${level}] ${contextStr ? `${contextStr} ` : ''}${message}${stack ? `\n${stack}` : ''}${metaStr}`;
         })
     );
-    const prodFormat = format.combine(
-        baseFormat,
-        format.json()
-    );
+    const prodFormat = format.combine(baseFormat, format.json());
 
-    const chosenFormat =
-            EnvConfig.Environment.node === 'dev' ? devFormat : prodFormat;
-
+    const chosenFormat = Env.node === 'dev' ? devFormat : prodFormat;
     const rotateOptions = {
         dirname: logConfig.dirname,
         datePattern: 'YYYY-MM-DD',

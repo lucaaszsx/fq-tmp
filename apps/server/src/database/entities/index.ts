@@ -17,4 +17,3 @@ export { RoleEntity } from './core/RoleEntity';
 /** Communication */
 
 /** People */
-

@@ -1,20 +1,18 @@
 /**
  * @file JSONParserMiddleware.ts
  * @description Parses incoming request bodies with JSON payloads, making them
- * available under `req.body`. Should be applied before any route handling or
- * request validation logic. Uses Express's built-in JSON parser internally.
- * Typically applied to handle API request bodies encoded as JSON.
+ * available under `req.body`.
  * @author Lucas
  * @license Apache-2.0
  */
 
 import { Request, Response, NextFunction } from 'express';
 import { Middleware } from 'routing-controllers';
-import { EnvConfig } from '@/config/env';
 import { json } from 'body-parser';
+import { Env } from '@/config/env';
 import { Service } from 'typedi';
 
-const { middlewares } = EnvConfig.Server;
+const { middlewares } = Env.Server;
 
 @Middleware({ type: 'before' })
 @Service()
@@ -23,9 +21,9 @@ export default class JSONParserMiddleware {
 
     constructor() {
         this.parser = json({
-            limit: middlewares.json.limit,      // prevents overly large request bodies
-            strict: true,                       // only parses valid JSON
-            inflate: middlewares.json.inflate   // supports gzip/deflate encoded bodies
+            limit: middlewares.json.limit, // prevents overly large request bodies
+            strict: true, // only parses valid JSON
+            inflate: middlewares.json.inflate // supports gzip/deflate encoded bodies
         });
     }
 

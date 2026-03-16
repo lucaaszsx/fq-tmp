@@ -6,12 +6,7 @@
  */
 
 import { IsBoolean, IsOptional, IsUrl, Matches } from 'class-validator';
-import {
-    IsRequiredString,
-    IsOptionalString,
-    IsRequiredInt,
-    IsOptionalInt
-} from '@/decorators';
+import { IsRequiredString, IsOptionalString, IsRequiredInt, IsOptionalInt } from '@/decorators';
 
 export class CreateVersionDTO {
     @IsRequiredString(1, 255)

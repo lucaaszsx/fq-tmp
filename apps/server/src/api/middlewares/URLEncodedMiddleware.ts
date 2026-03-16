@@ -8,7 +8,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { Middleware } from 'routing-controllers';
 import { urlencoded } from 'body-parser';
-import { EnvConfig } from '@/config/env';
+import { Env } from '@/config/env';
 import { Service } from 'typedi';
 
 @Middleware({ type: 'before' })
@@ -18,8 +18,8 @@ export default class URLEncodedMiddleware {
 
     constructor() {
         this.parser = urlencoded({
-            extended: true,                                        // Allows rich objects and arrays to be encoded
-            limit: EnvConfig.Server.middlewares.urlencoded.limit   // Prevents abuse with excessively large payloads
+            extended: true, // Allows rich objects and arrays to be encoded
+            limit: Env.Server.middlewares.urlencoded.limit // Prevents abuse with excessively large payloads
         });
     }
 

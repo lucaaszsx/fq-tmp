@@ -32,7 +32,7 @@ export enum EnvType {
  *
  * @returns The value of the environment variable.
  */
-export function getEnvVariable(key: string, type: EnvType | undefined = EnvType.Str): any  {
+export function getEnvVariable(key: string, type: EnvType | undefined = EnvType.Str): any {
     const value = process.env[key];
 
     if (!value) {
@@ -42,14 +42,15 @@ export function getEnvVariable(key: string, type: EnvType | undefined = EnvType.
         throw err;
     }
 
-    const parsedValue = type === EnvType.Int
-        ? parseInt(value, 10)
-        : type === EnvType.Float
-            ? parseFloat(value)
-            : type === EnvType.Bool
+    const parsedValue =
+        type === EnvType.Int
+            ? parseInt(value, 10)
+            : type === EnvType.Float
+              ? parseFloat(value)
+              : type === EnvType.Bool
                 ? value === 'true' || value === '1'
                 : value;
-    
+
     return parsedValue;
 }
 
@@ -71,17 +72,13 @@ export function getEnvOptional(key: string, defaultValue?: any) {
  * @param entry - The key string
  * @param cb - A callback to call for every item in array and parse it
  */
-export function parseEnvArray(
-    key: string,
-    cb?: (part: string) => string
-): string[] {
+export function parseEnvArray(key: string, cb?: (part: string) => string): string[] {
     const value = getEnvVariable(key) as string;
 
-    return value.toString().split(',')
-        .map((part) => cb
-            ? cb(part.trim()) as any
-            : part.trim()
-        );
+    return value
+        .toString()
+        .split(',')
+        .map((part) => (cb ? (cb(part.trim()) as any) : part.trim()));
 }
 
 /**
@@ -97,7 +94,7 @@ export function getEnvPath(key: string): string {
 
 /**
  * Parses a string into a valid path
- * 
+ *
  * @param path - The path to parse
  */
 export function parsePath(path: string): string {

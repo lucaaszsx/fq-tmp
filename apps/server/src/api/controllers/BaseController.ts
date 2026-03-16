@@ -17,7 +17,7 @@ export abstract class BaseController {
             data
         });
     }
-    
+
     protected created<T>(request: ExpressRequest, data: T): ApiResponse<T> {
         return createApiResponse<T>({
             apiCode: ApiSuccessCodes.CREATED,

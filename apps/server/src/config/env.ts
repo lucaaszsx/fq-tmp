@@ -15,13 +15,6 @@ import {
 } from '@/lib/env';
 
 /**
- * Environment configuration
- */
-const Environment = {
-    node: getEnvVariable('NODE_ENV')
-};
-
-/**
  * Server configuration
  */
 const Server = {
@@ -39,7 +32,7 @@ const Server = {
             windowMs: getEnvVariable('SERVER_RATE_LIMIT_WINDOW', EnvType.Int),
             max: getEnvVariable('SERVER_RATE_LIMIT_REQUESTS', EnvType.Int),
             standardHeaders: getEnvVariable('SERVER_RATE_LIMIT_STANDARD_HEADERS', EnvType.Bool),
-            legacyHeaders: getEnvVariable('SERVER_RATE_LIMIT_LEGACY_HEADERS', EnvType.Bool),
+            legacyHeaders: getEnvVariable('SERVER_RATE_LIMIT_LEGACY_HEADERS', EnvType.Bool)
         },
         json: {
             limit: getEnvVariable('SERVER_JSON_LIMIT'),
@@ -54,7 +47,7 @@ const Server = {
 /**
  * Application configuration
  */
-const Application = {
+const App = {
     logs: {
         level: getEnvVariable('APP_LOG_LEVEL'),
         dirname: getEnvPath('APP_LOG_FOLDER'),
@@ -86,7 +79,7 @@ const R2 = {
 /**
  * Database configuration
  */
-const Database = {
+const Pg = {
     type: getEnvVariable('DATABASE_TYPE'),
     host: getEnvVariable('DATABASE_HOST'),
     port: getEnvVariable('DATABASE_PORT', EnvType.Int),
@@ -98,4 +91,11 @@ const Database = {
 };
 
 // Configurations exports
-export const EnvConfig = { Environment, Server, Application, R2, Database };
+export const Env = {
+    node: getEnvVariable('NODE_ENV'),
+    
+    Server,
+    App,
+    R2,
+    Pg
+};

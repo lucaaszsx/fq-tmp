@@ -7,7 +7,7 @@
 
 export class ErrorList<ErrorT> {
     private list: ErrorT[] = [];
-    
+
     public get isValid(): boolean {
         return this.list.length === 0;
     }

@@ -36,7 +36,7 @@ export enum LoggerLevels {
  * Logger class that wraps Winston for structured and scoped logging.
  */
 export class Logger implements LoggerInterface {
-    public static DEFAULT_SCOPE = 'app';
+    private static DEFAULT_SCOPE = 'app';
 
     /**
      * Transforms a file path into a readable scope string.
@@ -129,7 +129,7 @@ export class Logger implements LoggerInterface {
      */
     private log(level: LoggerLevels, message: string, args: any[]): void {
         if (Object.prototype.hasOwnProperty.call(winston, level))
-            (winston as any)[level](`${this.formatScope()} ${message}`, args);
+            (winston as any)[level](`${this.formatScope()} ${message}`, ...args);
     }
 
     /**

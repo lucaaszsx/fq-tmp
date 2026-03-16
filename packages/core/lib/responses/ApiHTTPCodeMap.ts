@@ -32,12 +32,7 @@ export const ApiHTTPCodeMap: Record<number, StatusCodes> = {
     [ApiErrorCodes.NOT_IMPLEMENTED]: StatusCodes.NOT_IMPLEMENTED,
     [ApiErrorCodes.BAD_GATEWAY]: StatusCodes.BAD_GATEWAY,
     [ApiErrorCodes.NOT_FOUND]: StatusCodes.NOT_FOUND,
-    
-    // Validation Errors
-    [ApiErrorCodes.VALIDATION_FAILED]: StatusCodes.BAD_REQUEST,
 
-    // Version Management Errors
-    [ApiErrorCodes.VERSION_NOT_FOUND]: StatusCodes.NOT_FOUND,
-    [ApiErrorCodes.VERSION_ALREADY_EXISTS]: StatusCodes.CONFLICT,
-    [ApiErrorCodes.NO_ACTIVE_VERSIONS]: StatusCodes.NOT_FOUND
+    // Validation Errors
+    [ApiErrorCodes.VALIDATION_FAILED]: StatusCodes.BAD_REQUEST
 };

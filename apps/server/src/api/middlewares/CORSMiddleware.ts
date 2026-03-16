@@ -2,8 +2,6 @@
  * @file CorsMiddleware.ts
  * @description Enables Cross-Origin Resource Sharing (CORS) for incoming HTTP requests.
  * Configures response headers to allow specific origins, methods, and headers.
- * Should be applied before any route handling to ensure proper preflight response handling.
- * Useful for frontend-backend integrations or public APIs.
  *
  * @author Lucas
  * @license MIT
@@ -12,10 +10,10 @@
 import { Request, Response, NextFunction } from 'express';
 import { Middleware } from 'routing-controllers';
 import cors, { CorsOptions } from 'cors';
-import { EnvConfig } from '@/config/env';
+import { Env } from '@/config/env';
 import { Service } from 'typedi';
 
-const { middlewares } = EnvConfig.Server;
+const { middlewares } = Env.Server;
 
 @Middleware({ type: 'before' })
 @Service()

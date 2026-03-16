@@ -5,7 +5,7 @@
  * @license MIT
  */
 
-import { appDataSource } from "@/database/AppDataSource";
-import { UserEntity } from "@/database/entities";
+import { appDataSource } from '@/database/AppDataSource';
+import { UserEntity } from '@/database/entities';
 
 export const userRepository = appDataSource.getRepository(UserEntity);

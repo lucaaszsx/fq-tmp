@@ -1,15 +1,15 @@
-import { CreateUserDTO, UserExistsDTO, FindUsersDTO, UpdateUserDTO } from "./dtos/calls";
-import { userRepository } from "@/database/repositories";
-import { UserEntity } from "@/database/entities";
-import { LoggerDecorator } from "@/decorators";
-import { LoggerInterface } from "@/lib/logger";
-import { Service } from "typedi";
+import { CreateUserDTO, UserExistsDTO, FindUsersDTO, UpdateUserDTO } from './dtos/calls';
+import { userRepository } from '@/database/repositories';
+import { UserEntity } from '@/database/entities';
+import { LoggerDecorator } from '@/decorators';
+import { LoggerInterface } from '@/lib/logger';
+import { Service } from 'typedi';
 
 @Service()
 export class UserService {
     constructor(
         @LoggerDecorator(__filename)
-        private readonly logger: LoggerInterface        
+        private readonly logger: LoggerInterface
     ) {}
 
     public async createUser(data: CreateUserDTO): Promise<UserEntity> {
@@ -27,13 +27,19 @@ export class UserService {
         return users;
     }
 
-    public async findById(id: string, customParams: Partial<UserEntity> = {}): Promise<UserEntity | null> {
+    public async findById(
+        id: string,
+        customParams: Partial<UserEntity> = {}
+    ): Promise<UserEntity | null> {
         const user = await userRepository.findOne({ where: { id, ...customParams } });
 
         return user;
     }
 
-    public async findByEmail(email: string, customParams: Partial<UserEntity> = {}): Promise<UserEntity | null> {
+    public async findByEmail(
+        email: string,
+        customParams: Partial<UserEntity> = {}
+    ): Promise<UserEntity | null> {
         const user = await userRepository.findOne({ where: { email, ...customParams } });
 
         return user;
@@ -53,19 +59,14 @@ export class UserService {
         const user = await this.findById(id, { isActive: true });
 
         if (!user) throw 0;
-        if (
-            data.email &&
-            await this.exists({ email: data.email})
-        ) throw 0;
+        if (data.email && (await this.exists({ email: data.email }))) throw 0;
 
         userRepository.merge(user, data);
 
         return userRepository.save(user);
     }
 
-    public async deactivateUser(id: string) {
-
-    }
+    public async deactivateUser(id: string) {}
 
     public async activateUser() {}
 

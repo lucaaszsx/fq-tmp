@@ -8,5 +8,5 @@
 /** Logger */
 export { type LoggerInterface, LoggerLevels, Logger } from './Logger';
 
- /** Logger context */
+/** Logger context */
 export { type RequestContext, loggerContext } from './LoggerContext';

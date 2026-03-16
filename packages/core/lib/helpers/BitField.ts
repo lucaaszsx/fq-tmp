@@ -1,22 +1,20 @@
 /**
  * @file BitField.ts
  * @description Bit field class to manage application flags
- * 
+ *
  * @remarks
  * This implementation was inspired from the following project:
  * https://github.com/lucaaszsx/discord.io/blob/main/lib/helpers/Bitfield.js
- * 
+ *
  * The final code was adapted to fit this application.
- * 
+ *
  * @author Lucas
  * @license MIT
  */
 
 type FlagValue<T extends Record<PropertyKey, bigint>> = T[keyof T];
 
-export abstract class BitField<
-    TFlags extends Record<PropertyKey, bigint>
-> {
+export abstract class BitField<TFlags extends Record<PropertyKey, bigint>> {
     protected bits: bigint;
 
     protected constructor(bits: bigint = 0n) {
@@ -25,7 +23,7 @@ export abstract class BitField<
 
     /**
      * Checks wheter all bits provided are present
-     * 
+     *
      * @param flag - Bits to check
      * @returns True if all bits are set
      */
@@ -35,7 +33,7 @@ export abstract class BitField<
 
     /**
      * Check wheter any of provided bits are present
-     * 
+     *
      * @param flag - Bits to check
      * @returns True if at least one bit is set
      */
@@ -44,8 +42,8 @@ export abstract class BitField<
     }
 
     /**
-     * Adds the given bits to the bit field 
-     * 
+     * Adds the given bits to the bit field
+     *
      * @param flag - Bits to add
      * @returns The current instance
      */
@@ -56,20 +54,20 @@ export abstract class BitField<
     }
 
     /**
-     * Removes the given bits to the bit field 
-     * 
+     * Removes the given bits to the bit field
+     *
      * @param flag - Bits to remove
      * @returns The current instance
      */
     public remove(flag: FlagValue<TFlags>): this {
         if (this.has(flag)) this.bits ^= flag;
-        
+
         return this;
     }
 
     /**
      * Gets the value of bit field
-     * 
+     *
      * @returns Current bits
      */
     public valueOf(): bigint {

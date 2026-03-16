@@ -5,7 +5,7 @@
  * @license MIT
  */
 
-import { ApiSuccessCodes, ApiErrorCodes } from "../responses/ApiCodes";
+import { ApiSuccessCodes, ApiErrorCodes } from '../responses/ApiCodes';
 
 export type ApiResponse<T = Record<string, unknown>> =
     | {

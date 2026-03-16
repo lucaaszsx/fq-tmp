@@ -5,6 +5,4 @@
  * @license MIT
  */
 
-export class PrivateUserModel {
-    
-}
+export class PrivateUserModel {}

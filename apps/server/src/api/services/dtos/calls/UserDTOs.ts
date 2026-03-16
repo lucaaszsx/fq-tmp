@@ -1,5 +1,5 @@
-import { UserEntity } from "@/database/entities";
-import { FindManyOptions } from "typeorm";
+import { UserEntity } from '@/database/entities';
+import { FindManyOptions } from 'typeorm';
 
 export class CreateUserDTO {
     public name!: string;
@@ -19,5 +19,5 @@ export class UpdateUserDTO {
     public data!: {
         name?: string;
         email?: string;
-    }
+    };
 }

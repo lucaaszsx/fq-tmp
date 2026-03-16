@@ -5,7 +5,7 @@
  * @license MIT
  */
 
-import { appDataSource } from "@/database/AppDataSource";
-import { RoleEntity } from "@/database/entities";
+import { appDataSource } from '@/database/AppDataSource';
+import { RoleEntity } from '@/database/entities';
 
 export const roleRepository = appDataSource.getRepository(RoleEntity);

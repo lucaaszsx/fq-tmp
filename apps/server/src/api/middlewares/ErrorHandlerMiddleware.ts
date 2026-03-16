@@ -14,13 +14,13 @@ import {
     HttpError
 } from 'routing-controllers';
 import { BaseException } from '../responses/exceptions/Base';
-import { type ApiResponse, ApiErrorCodes } from '@vsa/core';
+import { type ApiResponse, ApiErrorCodes } from '@fc/core';
 import { ValidationError } from 'class-validator';
 import type { Request, Response } from 'express';
 import { sendApiResponse } from '../responses';
 import { LoggerInterface } from '@/lib/logger';
 import { LoggerDecorator } from '@/decorators';
-import { EnvConfig } from '@/config/env';
+import { Env } from '@/config/env';
 import { Service } from 'typedi';
 
 interface ExtendedBadRequestError extends BadRequestError {
@@ -39,15 +39,16 @@ export default class ErrorHandlerMiddleware implements ExpressErrorMiddlewareInt
     ) {}
 
     error(
-        error: any,
+        error: unknown,
         req: Request,
         res: Response<ApiResponse>
     ): Response<ApiResponse> | void {
         this.logError(error, req);
 
-        if (error instanceof BaseException) return this.handleBaseException(error, req, res);
+        if (error instanceof BaseException) return this.handleCustomException(error, req, res);
         if (error instanceof BadRequestError) return this.handleBadRequestError(error, req, res);
-        if (this.isValidationErrorArray(error)) return this.handleValidationErrors(error.errors, req, res);
+        if (this.isValidationErrorArray(error))
+            return this.handleValidationErrors(error.errors, req, res);
         if (error instanceof HttpError) return this.handleHttpError(error, req, res);
 
         return this.handleUnexpectedError(error, req, res);
@@ -69,7 +70,7 @@ export default class ErrorHandlerMiddleware implements ExpressErrorMiddlewareInt
         });
     }
 
-    private handleBaseException(
+    private handleCustomException(
         error: BaseException,
         req: Request,
         res: Response<ApiResponse>
@@ -126,7 +127,7 @@ export default class ErrorHandlerMiddleware implements ExpressErrorMiddlewareInt
         req: Request,
         res: Response<ApiResponse>
     ): Response<ApiResponse> {
-        const isDevelopment = EnvConfig.Environment.node === 'dev';
+        const isDevelopment = Env.node === 'dev';
 
         return sendApiResponse(req, res, {
             apiCode: ApiErrorCodes.INTERNAL_SERVER_ERROR,

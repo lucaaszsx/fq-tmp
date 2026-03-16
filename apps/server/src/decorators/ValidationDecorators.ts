@@ -87,11 +87,7 @@ export function IsOptionalString(
 }
 
 // Number field: required
-export function IsRequiredInt(
-    min?: number,
-    max?: number,
-    options?: ValidationOptions
-) {
+export function IsRequiredInt(min?: number, max?: number, options?: ValidationOptions) {
     return function (target: any, propertyKey: string) {
         IsInt({
             message: `${propertyKey} must be an integer`,
@@ -116,11 +112,7 @@ export function IsRequiredInt(
 }
 
 // Number field: optional
-export function IsOptionalInt(
-    min?: number,
-    max?: number,
-    options?: ValidationOptions
-) {
+export function IsOptionalInt(min?: number, max?: number, options?: ValidationOptions) {
     return function (target: any, propertyKey: string) {
         IsOptional(options)(target, propertyKey);
         IsInt({
@@ -155,10 +147,10 @@ export function IsRequiredStringArray(
 ) {
     return function (target: any, propertyKey: string) {
         IsArray({ message: `${propertyKey} must be an array`, ...options })(target, propertyKey);
-        IsString({ 
-            each: true, 
+        IsString({
+            each: true,
             message: `Each item in ${propertyKey} must be a string`,
-            ...options 
+            ...options
         })(target, propertyKey);
 
         if (minItems !== undefined) {
@@ -213,10 +205,10 @@ export function IsOptionalStringArray(
     return function (target: any, propertyKey: string) {
         IsOptional(options)(target, propertyKey);
         IsArray({ message: `${propertyKey} must be an array`, ...options })(target, propertyKey);
-        IsString({ 
-            each: true, 
+        IsString({
+            each: true,
             message: `Each item in ${propertyKey} must be a string`,
-            ...options 
+            ...options
         })(target, propertyKey);
 
         if (minItems !== undefined) {

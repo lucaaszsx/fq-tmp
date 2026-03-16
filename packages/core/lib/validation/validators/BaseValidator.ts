@@ -5,12 +5,12 @@
  * @license MIT
  */
 
-import type { ErrorList } from "../errors";
+import type { ErrorList } from '../errors';
 
 export abstract class BaseValidator {
     public static checkLength<T>(
         entry: string,
-        min:  number,
+        min: number,
         max: number,
         errors: ErrorList<T>,
         tooShortError: T,

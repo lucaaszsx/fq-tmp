@@ -10,9 +10,6 @@ import { BaseException } from '../Base';
 
 export class VersionNotFoundException extends BaseException {
     constructor(identifier: string, details?: string[]) {
-        super(
-            ApiErrorCodes.VERSION_NOT_FOUND,
-            details || [`Version ${identifier} not found`]
-        );
+        super(ApiErrorCodes.VERSION_NOT_FOUND, details || [`Version ${identifier} not found`]);
     }
 }
