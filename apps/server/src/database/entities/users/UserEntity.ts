@@ -1,44 +1,45 @@
-import { JoinColumn, ManyToOne, OneToMany, Entity, Column, Index } from 'typeorm';
+import { JoinColumn, ManyToOne, OneToMany, Column, Entity, Index } from 'typeorm';
+import { SessionEntity } from './SessionEntity';
 import { BaseEntity } from '../BaseEntity';
 import { RoleEntity } from './RoleEntity';
 import { UserRules } from '@fc/core';
-import { SessionEntity } from './SessionEntity';
 
 @Entity({ name: 'users' })
-@Index('IDX_USER_EMAIL_UNIQUE', ['email'], { unique: true })
 export class UserEntity extends BaseEntity {
     @Column({
+        name: 'full_name',
         type: 'varchar',
         length: UserRules.NAME.MAX_LENGTH
     })
-    name!: string;
+    public fullName: string;
 
     @Column({
         type: 'varchar',
         length: UserRules.EMAIL.MAX_LENGTH,
         unique: true
     })
-    email!: string;
+    public email: string;
 
     @Column({
         type: 'varchar',
         length: UserRules.PASSWORD.MAX_LENGTH,
         select: false
     })
-    password!: string;
+    public password: string;
+
+    @Column({ name: 'role_id', type: 'uuid', nullable: true })
+    @Index('idx_users_role_id')
+    public roleId: string | null;
 
     @ManyToOne(() => RoleEntity, (role) => role.users, {
-        nullable: false
+        nullable: true
     })
-    @JoinColumn({ name: 'roleId' })
-    public role!: RoleEntity;
+    @JoinColumn({ name: 'role_id' })
+    public role: RoleEntity | null;
 
-    @Column()
-    public roleId!: string;
-
-    @Column({ default: true })
-    public isActive!: boolean;
+    @Column({ name: 'is_active', default: true })
+    public isActive: boolean;
 
     @OneToMany(() => SessionEntity, (session) => session.user)
-    sessions!: SessionEntity[];
+    public sessions: SessionEntity[];
 }

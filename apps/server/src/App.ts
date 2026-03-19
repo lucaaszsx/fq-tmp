@@ -20,5 +20,7 @@ bootstrapMicroframework({
         logger.info('Application initialized successfully!');
     })
     .catch((err) => {
-        logger.error('An error occurred during application initialization:\n', err.stack);
+        logger.error('An error occurred during application initialization:', {
+            error: err instanceof Error ? err.stack : err
+        });
     });

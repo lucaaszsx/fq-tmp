@@ -9,10 +9,11 @@
 
 /** Attendance */
 
-/** Core */
-export { SessionEntity } from './core/SessionEntity';
-export { UserEntity } from './core/UserEntity';
-export { RoleEntity } from './core/RoleEntity';
+/** Users */
+export { RefreshTokenEntity } from './users/RefreshTokenEntity';
+export { SessionEntity } from './users/SessionEntity';
+export { UserEntity } from './users/UserEntity';
+export { RoleEntity } from './users/RoleEntity';
 
 /** Communication */
 

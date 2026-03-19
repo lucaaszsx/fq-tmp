@@ -17,7 +17,7 @@ import { Service } from 'typedi';
 export class SystemController extends BaseController {
     @Get('/ping')
     ping(@Req() req: Request): ApiResponse<PingResponse> {
-        return this.o<PingResponse>(req, {
+        return this.ok<PingResponse>(req, {
             message: 'Pong! 🏓'
         });
     }

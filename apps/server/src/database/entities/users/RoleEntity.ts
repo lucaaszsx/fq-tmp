@@ -10,17 +10,17 @@ export class RoleEntity extends BaseEntity {
         length: RoleRules.NAME.MAX_LENGTH,
         unique: true
     })
-    name!: string;
+    public name: string;
 
     @Column({
         type: 'varchar',
         length: RoleRules.DESCRIPTION.MAX_LENGTH
     })
-    description!: string;
+    public description: string;
 
     @Column({ type: 'bigint', default: 0 })
-    permissions!: string;
+    public permissions: string;
 
     @OneToMany(() => UserEntity, (user) => user.role)
-    public users!: UserEntity[];
+    public users: UserEntity[];
 }

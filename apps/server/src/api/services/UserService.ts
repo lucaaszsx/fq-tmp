@@ -1,9 +1,17 @@
-import { CreateUserDTO, UserExistsDTO, FindUsersDTO, UpdateUserDTO } from './dtos/calls';
+import {
+    CreateUserOptions,
+    UpdateUserOptions,
+    UserExistsOptions,
+    FindUsersOptions,
+    FindOneOptions
+} from './dtos/calls';
+import { EmailAlreadyExistsException, UserNotFoundException } from '../responses';
 import { userRepository } from '@/database/repositories';
 import { UserEntity } from '@/database/entities';
 import { LoggerDecorator } from '@/decorators';
 import { LoggerInterface } from '@/lib/logger';
 import { Service } from 'typedi';
+import { FindOptionsWhere } from 'typeorm';
 
 @Service()
 export class UserService {
@@ -12,8 +20,10 @@ export class UserService {
         private readonly logger: LoggerInterface
     ) {}
 
-    public async createUser(data: CreateUserDTO): Promise<UserEntity> {
-        if (await this.exists({ email: data.email })) throw 1; // throw EmailAlreadyExists error
+    public async create(data: CreateUserOptions): Promise<UserEntity> {
+        const emailExists = await this.exists({ email: data.email });
+
+        if (emailExists) throw new EmailAlreadyExistsException();
 
         const userModel = userRepository.create(data);
         const user = await userRepository.save(userModel);
@@ -21,54 +31,44 @@ export class UserService {
         return user;
     }
 
-    public async find(options: FindUsersDTO): Promise<UserEntity[]> {
-        const users = await userRepository.find(options);
+    public async find(options: FindUsersOptions): Promise<UserEntity[]> {
+        const page = options.page || 1;
+        const limit = options.limit || 10;
 
-        return users;
+        return userRepository.find({
+            skip: (page - 1) * limit,
+            take: limit,
+            order: { createdAt: 'DESC' }
+        });
     }
 
-    public async findById(
-        id: string,
-        customParams: Partial<UserEntity> = {}
-    ): Promise<UserEntity | null> {
-        const user = await userRepository.findOne({ where: { id, ...customParams } });
+    public findOne(options: FindOneOptions): Promise<UserEntity | null> {
+        return userRepository.findOne(options);
+    }
+
+    public async findById(id: string): Promise<UserEntity | null> {
+        const user = await this.findOne({ where: { id } });
+
+        if (!user?.isActive) throw new UserNotFoundException();
 
         return user;
     }
 
-    public async findByEmail(
-        email: string,
-        customParams: Partial<UserEntity> = {}
-    ): Promise<UserEntity | null> {
-        const user = await userRepository.findOne({ where: { email, ...customParams } });
+    public async findByEmail(email: string): Promise<UserEntity | null> {
+        const user = await this.findOne({ where: { email } });
+
+        if (!user?.isActive) throw new UserNotFoundException();
 
         return user;
     }
 
-    public async exists(options: UserExistsDTO): Promise<boolean> {
-        let user;
+    public async exists(options: UserExistsOptions): Promise<boolean> {
+        const { email, id } = options;
 
-        if (options.id) user = await this.findById(options.id);
-        else if (options.email) user = await this.findByEmail(options.email);
+        if (!email && !id) return false;
 
-        return user?.isActive as boolean;
+        return userRepository.exists({
+            where: [...(id ? [{ id }] : []), ...(email ? [{ email }] : [])]
+        });
     }
-
-    public async updateUser(options: UpdateUserDTO) {
-        const { data, id } = options;
-        const user = await this.findById(id, { isActive: true });
-
-        if (!user) throw 0;
-        if (data.email && (await this.exists({ email: data.email }))) throw 0;
-
-        userRepository.merge(user, data);
-
-        return userRepository.save(user);
-    }
-
-    public async deactivateUser(id: string) {}
-
-    public async activateUser() {}
-
-    public async deleteUser() {}
 }

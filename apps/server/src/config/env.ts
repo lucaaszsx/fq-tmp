@@ -93,7 +93,7 @@ const Pg = {
 // Configurations exports
 export const Env = {
     node: getEnvVariable('NODE_ENV'),
-    
+
     Server,
     App,
     R2,

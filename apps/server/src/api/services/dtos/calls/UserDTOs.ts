@@ -1,23 +1,27 @@
 import { UserEntity } from '@/database/entities';
-import { FindManyOptions } from 'typeorm';
 
-export class CreateUserDTO {
-    public name!: string;
-    public email!: string;
-    public password!: string;
+export interface CreateUserOptions {
+    fullName: string;
+    email: string;
+    password: string;
 }
 
-export class FindUsersDTO implements FindManyOptions<UserEntity> {}
-
-export class UserExistsDTO {
-    public id?: string;
-    public email?: string;
+export interface FindUsersOptions {
+    page?: number;
+    limit?: number;
 }
 
-export class UpdateUserDTO {
-    public id!: string;
-    public data!: {
-        name?: string;
-        email?: string;
+export interface FindOneOptions {}
+
+export interface UserExistsOptions {
+    id?: string;
+    email?: string;
+}
+
+export interface UpdateUserOptions {
+    id: string;
+    data: {
+        fullName: string;
+        email: string;
     };
 }

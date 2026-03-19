@@ -38,11 +38,7 @@ export default class ErrorHandlerMiddleware implements ExpressErrorMiddlewareInt
         private readonly logger: LoggerInterface
     ) {}
 
-    error(
-        error: unknown,
-        req: Request,
-        res: Response<ApiResponse>
-    ): Response<ApiResponse> | void {
+    error(error: unknown, req: Request, res: Response<ApiResponse>): Response<ApiResponse> | void {
         this.logError(error, req);
 
         if (error instanceof BaseException) return this.handleCustomException(error, req, res);

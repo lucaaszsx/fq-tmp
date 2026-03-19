@@ -17,7 +17,7 @@ export const DatabaseLoader: MicroframeworkLoader = async (
     try {
         await appDataSource.initialize();
 
-        logger.info('Database connection established');
+        logger.info('Database connection established.');
 
         if (settings) {
             settings.setData('dataSource', appDataSource);
@@ -26,12 +26,12 @@ export const DatabaseLoader: MicroframeworkLoader = async (
                 if (appDataSource?.isInitialized) {
                     await appDataSource.destroy();
 
-                    logger.info('Database connection closed');
+                    logger.info('Database connection closed.');
                 }
             });
         }
     } catch (error) {
-        logger.error('Failed to initialize database connection', error);
+        logger.error('Failed to initialize database connection.');
 
         throw error;
     }
